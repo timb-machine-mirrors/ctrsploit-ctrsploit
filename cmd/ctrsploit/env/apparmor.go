@@ -16,7 +16,7 @@ var Apparmor = &cli.Command{
 	Usage:   "show the apparmor info",
 	Action: func(context *cli.Context) (err error) {
 		log.Logger.Debug("")
-		err = apparmor.Apparmor()
+		err = apparmor.Print()
 		if err != nil {
 			return
 		}
