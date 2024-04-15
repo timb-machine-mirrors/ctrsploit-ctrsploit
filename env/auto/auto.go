@@ -13,7 +13,7 @@ import (
 
 func Auto() (err error) {
 	_ = where.Where()
-	_ = apparmor.Apparmor()
+	_ = apparmor.Print()
 	_ = selinux.Selinux()
 	_ = capability.Capability()
 	_ = cgroups.Cgroups()
