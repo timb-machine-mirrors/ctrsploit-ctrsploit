@@ -28,7 +28,7 @@ func level2result(name string, level container.NamespaceLevel) item.Short {
 	}
 }
 
-func Human(namespace container.Namespace, names []string, ns string) (human Result, err error) {
+func Human(namespace container.Namespace, ns string) (human Result) {
 	human = Result{
 		Name: result.Title{
 			Name: "Namespace Level",
@@ -36,7 +36,7 @@ func Human(namespace container.Namespace, names []string, ns string) (human Resu
 		Levels: []item.Short{},
 	}
 	if ns == "" {
-		for _, name := range names {
+		for _, name := range namespace.Names {
 			level := namespace.Levels[name]
 			human.Levels = append(human.Levels, level2result(name, level))
 		}
@@ -70,17 +70,13 @@ func Human(namespace container.Namespace, names []string, ns string) (human Resu
 }
 
 func Print(ns string) (err error) {
-	machine, names, err := Namespace()
-	if err != nil {
-		return
-	}
-	human, err := Human(machine, names, ns)
+	machine, err := Namespace()
 	if err != nil {
 		return
 	}
 	u := result.Union{
 		Machine: machine,
-		Human:   human,
+		Human:   Human(machine, ns),
 	}
 	fmt.Println(printer.Printer.Print(u))
 	return

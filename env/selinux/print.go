@@ -15,7 +15,7 @@ type Result struct {
 	MountPoint item.Short   `json:"mount_point"`
 }
 
-func Human(machine container.SELinux) (human Result, err error) {
+func Human(machine container.SELinux) (human Result) {
 	human = Result{
 		Name: result.Title{
 			Name: "SELinux",
@@ -44,13 +44,9 @@ func Print() (err error) {
 	if err != nil {
 		return
 	}
-	human, err := Human(machine)
-	if err != nil {
-		return
-	}
 	u := result.Union{
 		Machine: machine,
-		Human:   human,
+		Human:   Human(machine),
 	}
 	fmt.Println(printer.Printer.PrintDropAfterFalse(u))
 	return

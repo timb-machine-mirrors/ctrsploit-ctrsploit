@@ -1,0 +1,51 @@
+package auto
+
+import (
+	"fmt"
+	"github.com/ctrsploit/ctrsploit/env/apparmor"
+	"github.com/ctrsploit/ctrsploit/env/capability"
+	"github.com/ctrsploit/ctrsploit/env/cgroups"
+	"github.com/ctrsploit/ctrsploit/env/graphdriver"
+	"github.com/ctrsploit/ctrsploit/env/namespace"
+	"github.com/ctrsploit/ctrsploit/env/seccomp"
+	"github.com/ctrsploit/ctrsploit/env/selinux"
+	"github.com/ctrsploit/ctrsploit/env/where"
+	"github.com/ctrsploit/sploit-spec/pkg/env/container"
+	"github.com/ctrsploit/sploit-spec/pkg/printer"
+	"github.com/ctrsploit/sploit-spec/pkg/result"
+)
+
+type Result struct {
+	Where      where.Result
+	Apparmor   apparmor.Result
+	SELinux    selinux.Result
+	Capability capability.Caps
+	Cgroups    cgroups.Result
+	Filesystem graphdriver.Result
+	Namespace  namespace.Result
+	Seccomp    seccomp.Result
+}
+
+func Human(machine container.Env) (human Result) {
+	human = Result{
+		Where:      where.Human(machine.Where),
+		Apparmor:   apparmor.Human(machine.Apparmor),
+		SELinux:    selinux.Human(machine.SELinux),
+		Capability: capability.Human(machine.Capability),
+		Cgroups:    cgroups.Human(machine.CGroups),
+		Filesystem: graphdriver.Human(machine.Filesystem),
+		Namespace:  namespace.Human(machine.Namespace, ""),
+		Seccomp:    seccomp.Human(machine.Seccomp),
+	}
+	return
+}
+
+func Print() (err error) {
+	machine, err := Auto()
+	u := result.Union{
+		Machine: machine,
+		Human:   Human(machine),
+	}
+	fmt.Println(printer.Printer.Print(u))
+	return
+}

@@ -8,7 +8,7 @@ import (
 	"github.com/ctrsploit/sploit-spec/pkg/result/item"
 )
 
-type Result struct {
+type ResultItem struct {
 	Name     result.Title `json:"name"`
 	Enabled  item.Bool    `json:"enabled"`
 	Used     item.Bool    `json:"used"`
@@ -16,8 +16,10 @@ type Result struct {
 	HostPath item.Long    `json:"host_path"`
 }
 
-func graphDriver(name string, graphDriver container.GraphDriver) (human Result, err error) {
-	human = Result{
+type Result map[string]ResultItem
+
+func graphDriver(name string, graphDriver container.GraphDriver) (human ResultItem) {
+	human = ResultItem{
 		Name: result.Title{
 			Name: name,
 		},
@@ -45,18 +47,10 @@ func graphDriver(name string, graphDriver container.GraphDriver) (human Result, 
 	return
 }
 
-func Human(machine container.Filesystem) (human map[string]Result, err error) {
-	o, err := graphDriver("Overlay", machine.Overlay)
-	if err != nil {
-		return
-	}
-	d, err := graphDriver("DeviceMapper", machine.DeviceMapper)
-	if err != nil {
-		return
-	}
-	human = map[string]Result{
-		"overlay":      o,
-		"devicemapper": d,
+func Human(machine container.Filesystem) (human Result) {
+	human = Result{
+		"overlay":      graphDriver("Overlay", machine.Overlay),
+		"devicemapper": graphDriver("DeviceMapper", machine.DeviceMapper),
 	}
 	return
 }
@@ -66,13 +60,9 @@ func Print() (err error) {
 	if err != nil {
 		return
 	}
-	human, err := Human(machine)
-	if err != nil {
-		return
-	}
 	u := result.Union{
 		Machine: machine,
-		Human:   human,
+		Human:   Human(machine),
 	}
 	fmt.Println(printer.Printer.Print(u))
 	return
