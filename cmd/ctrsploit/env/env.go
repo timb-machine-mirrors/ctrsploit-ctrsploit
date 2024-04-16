@@ -22,5 +22,6 @@ var Command = &cli.Command{
 		Kernel,
 		Namespace,
 		DockerVersion,
+		Upload,
 	},
 }
