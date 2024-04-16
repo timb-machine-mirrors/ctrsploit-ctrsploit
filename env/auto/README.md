@@ -206,7 +206,7 @@ root@b1f9f8da70c3:~/app# ./bin/release/env_linux_amd64 --json auto |jq
     "version": 2,
     "sub": [],
     "top": []
-  },
+  }, 
   "overlay": {
     "loaded": true,
     "used": true,
