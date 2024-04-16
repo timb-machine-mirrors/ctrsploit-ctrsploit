@@ -112,16 +112,16 @@ func (d *DeviceMapper) IsUsed() (used bool, err error) {
 		used = true
 		return
 	}
-	if d.Loaded {
-		number, err := module.RefCount(ModuleNameDm)
-		if os.IsNotExist(err) {
-			return used, nil
-		}
-		if err != nil {
-			return used, err
-		}
-		used = number > 0
-	}
+	//if d.Loaded {
+	//	number, err := module.RefCount(ModuleNameDm)
+	//	if os.IsNotExist(err) {
+	//		return used, nil
+	//	}
+	//	if err != nil {
+	//		return used, err
+	//	}
+	//	used = number > 0
+	//}
 	return
 }
 
