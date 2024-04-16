@@ -5,7 +5,7 @@ go 1.21.4
 require (
 	github.com/containerd/cgroups v1.1.0
 	github.com/containerd/containerd v1.7.13
-	github.com/ctrsploit/sploit-spec v0.4.19
+	github.com/ctrsploit/sploit-spec v0.5.0-rc1
 	github.com/davecgh/go-spew v1.1.1
 	github.com/docker/docker v25.0.3+incompatible
 	github.com/google/cadvisor v0.48.1
