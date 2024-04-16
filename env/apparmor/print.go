@@ -16,7 +16,7 @@ type Result struct {
 	Mode      item.Short   `json:"mode"`
 }
 
-func Human(a container.Apparmor) (r Result, err error) {
+func Human(a container.Apparmor) (r Result) {
 	r = Result{
 		Name: result.Title{
 			Name: "AppArmor",
@@ -53,13 +53,9 @@ func Print() (err error) {
 	if err != nil {
 		return
 	}
-	h, err := Human(m)
-	if err != nil {
-		return
-	}
 	u := result.Union{
 		Machine: m,
-		Human:   h,
+		Human:   Human(m),
 	}
 	fmt.Println(printer.Printer.PrintDropAfterFalse(u))
 	return

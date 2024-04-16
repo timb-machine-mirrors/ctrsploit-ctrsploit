@@ -16,7 +16,7 @@ type Result struct {
 	Top  item.Long    `json:"top"`
 }
 
-func Human(machine container.CGroups) (human Result, err error) {
+func Human(machine container.CGroups) (human Result) {
 	human = Result{
 		Name: result.Title{
 			Name: "CGroups",
@@ -52,13 +52,9 @@ func Print() (err error) {
 	if err != nil {
 		return
 	}
-	h, err := Human(m)
-	if err != nil {
-		return
-	}
 	u := result.Union{
 		Machine: m,
-		Human:   h,
+		Human:   Human(m),
 	}
 	fmt.Println(printer.Printer.Print(u))
 	return

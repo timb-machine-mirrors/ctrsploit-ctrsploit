@@ -1,129 +1,80 @@
 package where
 
 import (
-	"fmt"
 	"github.com/ctrsploit/ctrsploit/pkg/where"
-	"github.com/ctrsploit/sploit-spec/pkg/printer"
-	"github.com/ctrsploit/sploit-spec/pkg/result"
-	"github.com/ctrsploit/sploit-spec/pkg/result/item"
+	"github.com/ctrsploit/sploit-spec/pkg/env/container"
 )
 
 const CommandName = "where"
 
-func Where() (err error) {
-	r := map[string]Result{
-		"container": Container(),
-		"docker":    Docker(),
-		"k8s":       K8s(),
-	}
-	fmt.Println(printer.Printer.Print(r))
-	return
-}
-
-func Container() (r Result) {
-	c := where.Container{}
-	in, err := c.IsIn()
-	if err != nil {
-		return
-	}
-
-	r = Result{
-		Name: result.Title{
-			Name: "Container",
-		},
-		In: item.Bool{
-			Name:        "Is in Container",
-			Description: "",
-			Result:      in,
-		},
-	}
-	return
-}
-
-func Docker() (r Result) {
+func Docker() (docker container.Type, err error) {
 	d := where.Docker{}
 	in, err := d.IsIn()
 	if err != nil {
 		return
 	}
-	r = Result{
-		Name: result.Title{
-			Name: "Docker",
-		},
-		Rules: []item.Bool{
-			{
-				Name:        "dockerenv",
-				Description: ".dockerenv exists",
-				Result:      d.DockerEnvFileExists,
-			},
-			{
-				Name:        "rootfs",
-				Description: "rootfs contains 'docker'",
-				Result:      d.RootfsContainsDocker,
-			},
-			{
-				Name:        "cgroups",
-				Description: "cgroups contains 'docker'",
-				Result:      d.CgroupContainsDocker,
-			},
-			{
-				Name:        "hosts",
-				Description: "the mount source of /etc/hosts contains 'docker'",
-				Result:      d.HostsMountSourceContainsDocker,
-			},
-			{
-				Name:        "hostname",
-				Description: "hostname match regex ^[0-9a-f]{12}$",
-				Result:      d.HostnameMatchPattern,
-			},
-		},
-		In: item.Bool{
-			Name:        "Is in docker",
-			Description: "",
-			Result:      in,
+	docker = container.Type{
+		In: in,
+		Rules: map[string]bool{
+			"dockerenv": d.DockerEnvFileExists,
+			"rootfs":    d.RootfsContainsDocker,
+			"cgroups":   d.CgroupContainsDocker,
+			"hosts":     d.HostsMountSourceContainsDocker,
+			"hostname":  d.HostnameMatchPattern,
 		},
 	}
 	return
 }
 
-func K8s() (r Result) {
+func K8s() (k8s container.Type, err error) {
 	k := where.K8s{}
 	in, err := k.IsIn()
 	if err != nil {
 		return
 	}
+	k8s = container.Type{
+		In: in,
+		Rules: map[string]bool{
+			"secret":   k.DirSecretsExists,
+			"hostname": k.HostnameMatchPattern,
+			"hosts":    k.HostsMountSourceContainsPods,
+			"cgroups":  k.CgroupContainsKubepods,
+		},
+	}
+	return
+}
 
-	r = Result{
-		Name: result.Title{
-			Name: "K8S",
-		},
-		Rules: []item.Bool{
-			{
-				Name:        "secret",
-				Description: fmt.Sprintf("secret path %s exists", where.PathDirSecrets),
-				Result:      k.DirSecretsExists,
-			},
-			{
-				Name:        "hostname",
-				Description: "hostname match k8s pattern",
-				Result:      k.HostnameMatchPattern,
-			},
-			{
-				Name:        "hosts",
-				Description: "the mount source of /etc/hosts contains 'pods'",
-				Result:      k.HostsMountSourceContainsPods,
-			},
-			{
-				Name:        "cgroups",
-				Description: "cgroups contains 'kubepods'",
-				Result:      k.CgroupContainsKubepods,
-			},
-		},
-		In: item.Bool{
-			Name:        "is in k8s",
-			Description: "",
-			Result:      in,
-		},
+func Container() (t container.Type, err error) {
+	c := where.Container{}
+	in, err := c.IsIn()
+	if err != nil {
+		return
+	}
+	t = container.Type{
+		In:    in,
+		Rules: map[string]bool{},
+	}
+	return
+}
+
+func Where() (machine container.Where, err error) {
+	docker, err := Docker()
+	if err != nil {
+		return
+	}
+	k8s, err := K8s()
+	if err != nil {
+		return
+	}
+	c, err := Container()
+	if err != nil {
+		return
+	}
+	machine = container.Where{
+		Container:  c,
+		K8s:        k8s,
+		Containerd: container.Type{},
+		Docker:     docker,
 	}
 	return
 }

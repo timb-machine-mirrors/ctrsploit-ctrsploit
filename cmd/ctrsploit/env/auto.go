@@ -14,7 +14,7 @@ var (
 		Name:  CommandNameAuto,
 		Usage: "auto",
 		Action: func(context *cli.Context) (err error) {
-			return auto.Auto()
+			return auto.Print()
 		},
 	}
 )

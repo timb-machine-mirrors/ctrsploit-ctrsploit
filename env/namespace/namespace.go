@@ -7,7 +7,7 @@ import (
 
 const CommandName = "namespace"
 
-func Namespace() (machine container.Namespace, names []string, err error) {
+func Namespace() (machine container.Namespace, err error) {
 	machine = container.Namespace{Levels: map[string]container.NamespaceLevel{}}
 	arbitrator, err := namespace.NewInoArbitrator()
 	if err != nil {
@@ -20,5 +20,6 @@ func Namespace() (machine container.Namespace, names []string, err error) {
 	for name, level := range namespaceLevels {
 		machine.Levels[name] = container.NamespaceLevel(level)
 	}
+	machine.Names = names
 	return
 }
