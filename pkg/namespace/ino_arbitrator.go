@@ -2,6 +2,7 @@ package namespace
 
 import (
 	"github.com/ctrsploit/ctrsploit/prerequisite/kernel"
+	"github.com/ctrsploit/sploit-spec/pkg/env/container"
 	"github.com/ctrsploit/sploit-spec/pkg/log"
 	"github.com/ctrsploit/sploit-spec/pkg/prerequisite"
 	"github.com/pkg/errors"
@@ -85,7 +86,7 @@ func (i *InoArbitrator) IsNetworkNamespaceInoBetweenProcInoList(ns Namespace) (i
 	return
 }
 
-func (i *InoArbitrator) Arbitrate(ns Namespace) (namespaceLevel Level, err error) {
+func (i *InoArbitrator) Arbitrate(ns Namespace) (namespaceLevel container.NamespaceLevel, err error) {
 	var isHostNamespace, normal bool
 	// linuxkit
 	err = kernel.ReleasedByLinuxkit.Check()
@@ -94,10 +95,10 @@ func (i *InoArbitrator) Arbitrate(ns Namespace) (namespaceLevel Level, err error
 	}
 	if kernel.ReleasedByLinuxkit.Satisfied {
 		switch ns.Type {
-		case TypeNetwork:
+		case container.NamespaceTypeNetwork:
 			isHostNamespace = LinuxKitNetNsInitIno == ns.InodeNumber
 			break
-		case TypeMount:
+		case container.NamespaceTypeMount:
 			isHostNamespace = LinuxKitMountNsInitIno == ns.InodeNumber
 			break
 		default:
@@ -108,14 +109,14 @@ func (i *InoArbitrator) Arbitrate(ns Namespace) (namespaceLevel Level, err error
 	}
 	if normal {
 		switch ns.Type {
-		case TypeNetwork:
+		case container.NamespaceTypeNetwork:
 			// network namespace:
 			//	linuxkit: 0xF0000000
 			//	normal:
 			//		verify: first two hole => host
 			// verify
 			isHostNamespace = i.IsNetworkNamespaceInoBetweenTwoAdjacentMissingIno(ns)
-		case TypeCGroup:
+		case container.NamespaceTypeCGroup:
 			// cgroups namespace:
 			//     kernel not supports => host
 			//     otherwise, compare with initIno
@@ -130,7 +131,7 @@ func (i *InoArbitrator) Arbitrate(ns Namespace) (namespaceLevel Level, err error
 				// kernel not supports <=> host ns
 				isHostNamespace = true
 			}
-		case TypeTime:
+		case container.NamespaceTypeTime:
 			// time namespace:
 			//     kernel not supports => host
 			//     otherwise, compare with initIno
@@ -144,16 +145,16 @@ func (i *InoArbitrator) Arbitrate(ns Namespace) (namespaceLevel Level, err error
 				// kernel not supports <=> host ns
 				isHostNamespace = true
 			}
-		case TypeIPC, TypeUTS, TypeUser, TypePid, TypeMount:
+		case container.NamespaceTypeIPC, container.NamespaceTypeUTS, container.NamespaceTypeUser, container.NamespaceTypePid, container.NamespaceTypeMount:
 			isHostNamespace = ns.InodeNumber == ns.InitInodeNumber
 		default:
 			log.Logger.Warningf("%s has an unknown namespace level: %+v\n", ns.Name, ns)
 		}
 	}
 	if isHostNamespace {
-		namespaceLevel = LevelHost
+		namespaceLevel = container.NamespaceLevelHost
 	} else {
-		namespaceLevel = LevelChild
+		namespaceLevel = container.NamespaceLevelChild
 	}
 	return
 }

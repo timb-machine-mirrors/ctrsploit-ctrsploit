@@ -1,11 +1,14 @@
 package namespace
 
-import "path/filepath"
+import (
+	"github.com/ctrsploit/sploit-spec/pkg/env/container"
+	"path/filepath"
+)
 
 type Namespace struct {
 	Name            string
 	Path            string
-	Type            Type
+	Type            container.NamespaceType
 	InodeNumber     int
 	InitInodeNumber int
 }
@@ -21,9 +24,9 @@ func ParseNamespaces() (namespaces []Namespace, names []string, err error) {
 		namespace := Namespace{
 			Name:            name,
 			Path:            filepath.Join(proc, name),
-			Type:            MapName2Type[name],
+			Type:            container.NamespaceMapName2Type[name],
 			InodeNumber:     ino,
-			InitInodeNumber: InitInoMap[MapName2Type[name]],
+			InitInodeNumber: InitInoMap[container.NamespaceMapName2Type[name]],
 		}
 		namespaces = append(namespaces, namespace)
 	}

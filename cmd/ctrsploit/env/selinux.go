@@ -16,7 +16,7 @@ var Selinux = &cli.Command{
 	Usage:   "show the selinux info",
 	Action: func(context *cli.Context) (err error) {
 		log.Logger.Debug("")
-		err = selinux.Selinux()
+		err = selinux.Print()
 		if err != nil {
 			return
 		}

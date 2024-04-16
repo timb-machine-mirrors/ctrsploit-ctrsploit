@@ -5,71 +5,53 @@ graphdriver
 存储驱动
 
 ```
-root@b93597d64108:/# ./env_linux_amd64 --colorful graphdriver
+root@b1f9f8da70c3:~/app# ./bin/release/env_linux_amd64 graphdriver
 ===========Overlay===========
-✔  Enabled      
-✔  Used 
-The number of graph driver mounted      # equal to the number of containers
-7
-The host path of container's rootfs     
-/var/lib/docker/overlay2/2f660313765143ee9253b4a93a0ca665ed9288fc3e4aca927426f5ac61ca77bb/merged
+[Y]  Enabled	
+[Y]  Used	
+The number of graph driver mounted	# equal to the number of containers
+6
+The host path of container's rootfs	
+/var/lib/docker/overlay2/254080c7a7418fb2db4d5d27e03bc86f3fe4ae52b5c15b36ad0196adfc887f9e/merged
 ===========DeviceMapper===========
-✔  Enabled      
-✘  Used
-```
+[Y]  Enabled	
+[N]  Used	
+The number of graph driver mounted	# equal to the number of containers
+0
+The host path of container's rootfs	
 
-```
-root@4fe779fc104c:~/ctrsploit/bin/release# ./env_linux_amd64 --json g | jq
+
+root@b1f9f8da70c3:~/app# ./bin/release/env_linux_amd64 --colorful graphdriver
+===========Overlay===========
+✔  Enabled	
+✔  Used	
+The number of graph driver mounted	# equal to the number of containers
+6
+The host path of container's rootfs	
+/var/lib/docker/overlay2/254080c7a7418fb2db4d5d27e03bc86f3fe4ae52b5c15b36ad0196adfc887f9e/merged
+===========DeviceMapper===========
+✔  Enabled	
+✘  Used	
+The number of graph driver mounted	# equal to the number of containers
+0
+The host path of container's rootfs	
+
+
+root@b1f9f8da70c3:~/app# ./bin/release/env_linux_amd64 --json graphdriver
+{"overlay":{"loaded":true,"used":true,"refcnt":6,"hostPath":"/var/lib/docker/overlay2/254080c7a7418fb2db4d5d27e03bc86f3fe4ae52b5c15b36ad0196adfc887f9e/merged"},"device_mapper":{"loaded":true,"used":false,"refcnt":0,"hostPath":""}}
+root@b1f9f8da70c3:~/app# ./bin/release/env_linux_amd64 --json graphdriver |jq
 {
-  "devicemapper": {
-    "name": {
-      "name": "DeviceMapper"
-    },
-    "enabled": {
-      "name": "Enabled",
-      "description": "",
-      "result": true
-    },
-    "used": {
-      "name": "Used",
-      "description": "",
-      "result": false
-    },
-    "number": {
-      "name": "",
-      "description": "",
-      "result": ""
-    },
-    "host_path": {
-      "name": "",
-      "description": "",
-      "result": ""
-    }
-  },
   "overlay": {
-    "name": {
-      "name": "Overlay"
-    },
-    "enabled": {
-      "name": "Enabled",
-      "description": "",
-      "result": true
-    },
-    "used": {
-      "name": "Used",
-      "description": "",
-      "result": true
-    },
-    "number": {
-      "name": "The number of graph driver mounted",
-      "description": "equal to the number of containers",
-      "result": "11"
-    },
-    "host_path": {
-      "name": "The host path of container's rootfs",
-      "description": "",
-      "result": "/var/lib/docker/overlay2/488d1aede2705505ad41e04aba5a3b42c5ce3905caabfe7da65de1c70178644b/merged"
-    }
+    "loaded": true,
+    "used": true,
+    "refcnt": 6,
+    "hostPath": "/var/lib/docker/overlay2/254080c7a7418fb2db4d5d27e03bc86f3fe4ae52b5c15b36ad0196adfc887f9e/merged"
+  },
+  "device_mapper": {
+    "loaded": true,
+    "used": false,
+    "refcnt": 0,
+    "hostPath": ""
   }
 }
 ```

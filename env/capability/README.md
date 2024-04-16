@@ -1,18 +1,33 @@
 # env/capability
 
 ```
-root@32a6a37bda2e:/ctrsploit/bin/release# ./env_linux_amd64 --colorful capability
+$ docker run -ti -v $(pwd):/ctrsploit -w /ctrsploit/bin/release --cap-add CAP_SYS_ADMIN ubuntu bash
+root@d382ed5d4f04:/ctrsploit/bin/release# ./env_linux_amd64 --colorful capability
 ===========Capability===========
-[Capabilities (pid1)]   
-0xa82425fb
-✘  Equal to Docker's Default capability # 0xa82425fb
-[Additional]    
+[pid1]
+capabilities:		0xa82425fb	
+✔  Not Equal to Docker's Default Capability (0xa80425fb)	# 0xa82425fb
+[Additional]	
+["CAP_SYS_ADMIN"]
+[current]
+capabilities:		0xa82425fb	
+✔  Not Equal to Docker's Default Capability (0xa80425fb)	# 0xa82425fb
+[Additional]	
 ["CAP_SYS_ADMIN"]
 
-[Capabilities (current)]        
-0xa82425fb
-✘  Equal to Docker's Default capability # 0xa82425fb
-[Additional]    
+root@d382ed5d4f04:/ctrsploit/bin/release# ./env_linux_amd64 capability
+===========Capability===========
+[pid1]
+capabilities:		0xa82425fb	
+[Y]  Not Equal to Docker's Default Capability (0xa80425fb)	# 0xa82425fb
+[Additional]	
+["CAP_SYS_ADMIN"]
+[current]
+capabilities:		0xa82425fb	
+[Y]  Not Equal to Docker's Default Capability (0xa80425fb)	# 0xa82425fb
+[Additional]	
 ["CAP_SYS_ADMIN"]
 
+root@d382ed5d4f04:/ctrsploit/bin/release# ./env_linux_amd64 --json capability
+{"pid1":2820941307,"self":2820941307}
 ```

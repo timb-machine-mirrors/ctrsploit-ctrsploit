@@ -10,7 +10,7 @@ var Seccomp = &cli.Command{
 	Aliases: []string{"s"},
 	Usage:   "show the seccomp info",
 	Action: func(context *cli.Context) (err error) {
-		err = seccomp.Seccomp()
+		err = seccomp.Print()
 		if err != nil {
 			return
 		}

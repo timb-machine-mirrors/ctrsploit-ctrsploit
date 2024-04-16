@@ -10,12 +10,6 @@ import (
 
 const CommandName = "where"
 
-type Result struct {
-	Name  result.Title `json:"name"`
-	Rules []item.Bool  `json:"rules"`
-	In    item.Bool    `json:"in"`
-}
-
 func Where() (err error) {
 	r := map[string]Result{
 		"container": Container(),
