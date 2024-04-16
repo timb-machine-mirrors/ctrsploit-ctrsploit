@@ -3,20 +3,21 @@ package namespace
 import (
 	"fmt"
 	"github.com/ctrsploit/ctrsploit/pkg/namespace"
+	"github.com/ctrsploit/sploit-spec/pkg/env/container"
 	"github.com/ctrsploit/sploit-spec/pkg/prerequisite"
 	"github.com/ssst0n3/awesome_libs/awesome_error"
 )
 
 type Namespace struct {
-	ExpectedLevel namespace.Level
-	Type          namespace.Type
+	ExpectedLevel container.NamespaceLevel
+	Type          container.NamespaceType
 	prerequisite.BasePrerequisite
 }
 
 var (
 	NetworkNamespaceLevelHost = Namespace{
-		ExpectedLevel: namespace.LevelHost,
-		Type:          namespace.TypeNetwork,
+		ExpectedLevel: container.NamespaceLevelHost,
+		Type:          container.NamespaceTypeNetwork,
 		BasePrerequisite: prerequisite.BasePrerequisite{
 			Name: "Network_Namespace_Level_Host",
 			Info: "Container with host network namespace can cause network-based attacks even escape",
@@ -37,12 +38,12 @@ func (p *Namespace) Check() (err error) {
 	if err != nil {
 		return
 	}
-	level, ok := namespaceLevels[namespace.MapType2Name[p.Type]]
+	level, ok := namespaceLevels[container.NamespaceMapType2Name[p.Type]]
 	if !ok {
 		err = fmt.Errorf("unknown namespace type %s", p.Type)
 		awesome_error.CheckErr(err)
 		return
 	}
-	p.Satisfied = level == namespace.LevelHost
+	p.Satisfied = level == container.NamespaceLevelHost
 	return
 }

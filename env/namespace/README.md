@@ -279,62 +279,19 @@ uts: child
 ### json format
 
 ```
-root@4fe779fc104c:~/ctrsploit/bin/release# ./env_linux_amd64 --json namespace | jq
+root@b1f9f8da70c3:~/app# ./bin/release/env_linux_amd64 --json  namespace | jq
 {
-  "name": {
-    "name": "Namespace Level"
-  },
-  "levels": [
-    {
-      "name": "cgroup",
-      "description": "",
-      "result": "child"
-    },
-    {
-      "name": "ipc",
-      "description": "",
-      "result": "child"
-    },
-    {
-      "name": "mnt",
-      "description": "",
-      "result": "child"
-    },
-    {
-      "name": "net",
-      "description": "",
-      "result": "child"
-    },
-    {
-      "name": "pid",
-      "description": "",
-      "result": "child"
-    },
-    {
-      "name": "pid_for_children",
-      "description": "",
-      "result": "child"
-    },
-    {
-      "name": "time",
-      "description": "",
-      "result": "host"
-    },
-    {
-      "name": "time_for_children",
-      "description": "",
-      "result": "host"
-    },
-    {
-      "name": "user",
-      "description": "",
-      "result": "host"
-    },
-    {
-      "name": "uts",
-      "description": "",
-      "result": "child"
-    }
-  ]
+  "levels": {
+    "cgroup": 2,
+    "ipc": 2,
+    "mnt": 2,
+    "net": 2,
+    "pid": 2,
+    "pid_for_children": 2,
+    "time": 1,
+    "time_for_children": 1,
+    "user": 1,
+    "uts": 2
+  }
 }
 ```

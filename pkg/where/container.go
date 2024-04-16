@@ -1,6 +1,9 @@
 package where
 
-import "github.com/ctrsploit/ctrsploit/pkg/namespace"
+import (
+	"github.com/ctrsploit/ctrsploit/pkg/namespace"
+	"github.com/ctrsploit/sploit-spec/pkg/env/container"
+)
 
 type Container struct {
 }
@@ -13,11 +16,11 @@ func (c Container) IsIn() (in bool, err error) {
 	if err != nil {
 		return
 	}
-	level, err := namespace.GetNamespaceLevel(arbitrator, namespace.NameMnt)
+	level, err := namespace.GetNamespaceLevel(arbitrator, container.NamespaceNameMnt)
 	if err != nil {
 		return
 	}
-	if level == namespace.LevelChild {
+	if level == container.NamespaceLevelChild {
 		in = true
 	}
 	return

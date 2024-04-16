@@ -1,9 +1,18 @@
 # seccomp
 ## usage
 ```
-root@e7d5f53eb35b:~/ctrsploit/bin/release# ./env_linux_amd64 --colorful seccomp
+root@b1f9f8da70c3:~/app# ./bin/release/env_linux_amd64 --colorful seccomp
 ===========Seccomp===========
-✔  Kernel Supported     
-✔  Container Enabled    
-Mode:                   filter
+✔  Kernel Supported	
+✔  Container Enabled	
+Mode:			filter	
+
+root@b1f9f8da70c3:~/app# ./bin/release/env_linux_amd64 seccomp
+===========Seccomp===========
+[Y]  Kernel Supported	
+[Y]  Container Enabled	
+Mode:			filter	
+
+root@b1f9f8da70c3:~/app# ./bin/release/env_linux_amd64 --json seccomp
+{"kernel_supported":true,"container_enabled":true,"mode":"filter"}
 ```

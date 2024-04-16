@@ -1,89 +1,24 @@
 package namespace
 
 import (
-	"fmt"
 	"github.com/ctrsploit/ctrsploit/pkg/namespace"
-	"github.com/ctrsploit/ctrsploit/prerequisite/kernel"
-	"github.com/ctrsploit/sploit-spec/pkg/colorful"
-	"github.com/ctrsploit/sploit-spec/pkg/log"
-	"github.com/ctrsploit/sploit-spec/pkg/printer"
-	"github.com/ctrsploit/sploit-spec/pkg/result"
-	"github.com/ctrsploit/sploit-spec/pkg/result/item"
+	"github.com/ctrsploit/sploit-spec/pkg/env/container"
 )
 
 const CommandName = "namespace"
 
-type Result struct {
-	Name   result.Title `json:"name"`
-	Levels []item.Short `json:"levels"`
-}
-
-func getNamespaceLevels() (namespaceLevels map[string]namespace.Level, names []string, err error) {
+func Namespace() (machine container.Namespace, names []string, err error) {
+	machine = container.Namespace{Levels: map[string]container.NamespaceLevel{}}
 	arbitrator, err := namespace.NewInoArbitrator()
 	if err != nil {
 		return
 	}
-	namespaceLevels, names, err = namespace.CheckNamespaceLevel(arbitrator)
+	namespaceLevels, names, err := namespace.CheckNamespaceLevel(arbitrator)
 	if err != nil {
 		return
 	}
-	return
-}
-
-func level2result(name string, level namespace.Level) item.Short {
-	levelResult := level.String()
-	if levelResult == "host" {
-		levelResult = colorful.O.Danger(levelResult)
+	for name, level := range namespaceLevels {
+		machine.Levels[name] = container.NamespaceLevel(level)
 	}
-	return item.Short{
-		Name:        name,
-		Description: "",
-		Result:      levelResult,
-	}
-}
-
-func CurrentNamespaceLevel(ns string) (err error) {
-	r := Result{
-		Name: result.Title{
-			Name: "Namespace Level",
-		},
-		Levels: []item.Short{},
-	}
-	namespaceLevels, names, err := getNamespaceLevels()
-	if err != nil {
-		return
-	}
-	if ns == "" {
-		for _, name := range names {
-			level := namespaceLevels[name]
-			r.Levels = append(r.Levels, level2result(name, level))
-		}
-	} else {
-		level, ok := namespaceLevels[ns]
-		if !ok {
-			// maybe kernel not support
-			switch ns {
-			case namespace.NameTime, namespace.NameTimeForChildren:
-				err := kernel.SupportsTimeNamespace.Check()
-				if err != nil {
-					break
-				}
-				if !kernel.SupportsTimeNamespace.Satisfied {
-					level = namespace.LevelHost
-				}
-			case namespace.NameCGroup:
-				err := kernel.SupportsCgroupNamespace.Check()
-				if err != nil {
-					break
-				}
-				if !kernel.SupportsCgroupNamespace.Satisfied {
-					level = namespace.LevelHost
-				}
-			}
-		}
-		log.Logger.Debugf("%s: %+v \n", ns, level)
-		r.Levels = append(r.Levels, level2result(ns, level))
-	}
-	fmt.Println(printer.Printer.Print(r))
 	return
 }

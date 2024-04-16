@@ -10,7 +10,7 @@ var Capability = &cli.Command{
 	Aliases: []string{"cap"},
 	Usage:   "show the capability of pid 1 and current process",
 	Action: func(context *cli.Context) (err error) {
-		err = capability.Capability()
+		err = capability.Print()
 		if err != nil {
 			return
 		}

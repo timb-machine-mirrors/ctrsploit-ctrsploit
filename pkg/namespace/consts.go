@@ -1,22 +1,7 @@
 package namespace
 
 import (
-	"github.com/ctrsploit/ctrsploit/internal"
-)
-
-// Name
-
-const (
-	NameCGroup          = "cgroup"
-	NameIpc             = "ipc"
-	NameMnt             = "mnt"
-	NameNet             = "net"
-	NamePid             = "pid"
-	NamePidForChildren  = "pid_for_children"
-	NameUser            = "user"
-	NameUts             = "uts"
-	NameTime            = "time"
-	NameTimeForChildren = "time_for_children"
+	"github.com/ctrsploit/sploit-spec/pkg/env/container"
 )
 
 // Init Inode Number
@@ -38,73 +23,17 @@ const (
 	LinuxKitMountNsInitIno = ProcDynamicFirst + 1
 )
 
-// Level
-
-type Level int
-
-const (
-	LevelUnknown Level = iota
-	LevelBoot
-	LevelChild
-	LevelNotSupported
-	LevelHost = LevelBoot
-)
-
-var (
-	LevelMap = map[Level]string{
-		LevelChild:        "child",
-		LevelHost:         "host",
-		LevelNotSupported: "not supported( <=> host)",
-		LevelUnknown:      "unknown",
-	}
-)
-
-func (l Level) String() string {
-	return LevelMap[l]
-}
-
-// Type
-
-type Type int
-
-const (
-	TypeUnknown Type = iota
-	TypeIPC
-	TypeUTS
-	TypeUser
-	TypePid
-	TypeCGroup
-	TypeTime
-	TypeMount
-	TypeNetwork
-)
-
 // Map
 
 var (
-	MapName2Type = map[string]Type{
-		NameCGroup: TypeCGroup,
-		NameIpc:    TypeIPC,
-		NameMnt:    TypeMount,
-		NameNet:    TypeNetwork,
-		NamePid:    TypePid,
-		// TODO: not sure pid_for_children is same as pid?
-		NamePidForChildren: TypePid,
-		NameUser:           TypeUser,
-		NameUts:            TypeUTS,
-		NameTime:           TypeTime,
-		// TODO: not sure time_for_children is same as time?
-		NameTimeForChildren: TypeTime,
-	}
-	MapType2Name = internal.ReverseMap(MapName2Type).(map[Type]string)
-	InitInoMap   = map[Type]int{
-		TypeCGroup:  ProcCGroupInitIno,
-		TypeIPC:     ProcIpcInitIno,
-		TypeMount:   ProcMountInitIno,
-		TypeNetwork: -1,
-		TypePid:     ProcPidInitIno,
-		TypeUser:    ProcUserInitIno,
-		TypeUTS:     ProcUtsInitIno,
-		TypeTime:    ProcTimeInitIno,
+	InitInoMap = map[container.NamespaceType]int{
+		container.NamespaceTypeCGroup:  ProcCGroupInitIno,
+		container.NamespaceTypeIPC:     ProcIpcInitIno,
+		container.NamespaceTypeMount:   ProcMountInitIno,
+		container.NamespaceTypeNetwork: -1,
+		container.NamespaceTypePid:     ProcPidInitIno,
+		container.NamespaceTypeUser:    ProcUserInitIno,
+		container.NamespaceTypeUTS:     ProcUtsInitIno,
+		container.NamespaceTypeTime:    ProcTimeInitIno,
 	}
 )

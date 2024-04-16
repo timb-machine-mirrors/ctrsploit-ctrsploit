@@ -14,12 +14,11 @@ import (
 func Auto() (err error) {
 	_ = where.Where()
 	_ = apparmor.Print()
-	_ = selinux.Selinux()
-	_ = capability.Capability()
-	_ = cgroups.Cgroups()
-	_ = graphdriver.Overlay()
-	_ = graphdriver.DeviceMapper()
-	_ = namespace.CurrentNamespaceLevel("")
-	_ = seccomp.Seccomp()
+	_ = selinux.Print()
+	_ = capability.Print()
+	_ = cgroups.Print()
+	_ = graphdriver.Print()
+	_ = namespace.Print("")
+	_ = seccomp.Print()
 	return
 }
