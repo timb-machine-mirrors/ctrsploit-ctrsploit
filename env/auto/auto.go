@@ -12,11 +12,19 @@ import (
 	"github.com/ctrsploit/sploit-spec/pkg/env/container"
 )
 
-func Auto() (env container.Env, err error) {
+func Basic() (basic container.Basic, err error) {
 	w, err := where.Where()
 	if err != nil {
 		return
 	}
+	basic = container.Basic{
+		Where:         w,
+		KernelVersion: "", //TODO
+	}
+	return
+}
+
+func LinuxSecurityFeature() (lsf container.LinuxSecurityFeature, err error) {
 	cap, err := capability.Capability()
 	if err != nil {
 		return
@@ -45,25 +53,35 @@ func Auto() (env container.Env, err error) {
 	if err != nil {
 		return
 	}
+	lsf = container.LinuxSecurityFeature{
+		Credential: container.Credential{}, //TODO
+		Capability: cap,
+		LSM: container.LSM{
+			Apparmor: aa,
+			SELinux:  se,
+		},
+		Seccomp:    sc,
+		Namespace:  ns,
+		CGroups:    cg,
+		Filesystem: fs,
+	}
+	return
+}
+
+func Auto() (env container.Env, err error) {
+	basic, err := Basic()
+	if err != nil {
+		return
+	}
+	lsf, err := LinuxSecurityFeature()
+	if err != nil {
+		return
+	}
 	env = container.Env{
-		Basic: container.Basic{
-			Where:         w,
-			KernelVersion: "", //TODO
-		},
-		LinuxSecurityFeature: container.LinuxSecurityFeature{
-			Credential: container.Credential{}, //TODO
-			Capability: cap,
-			LSM: container.LSM{
-				Apparmor: aa,
-				SELinux:  se,
-			},
-			Seccomp:    sc,
-			Namespace:  ns,
-			CGroups:    cg,
-			Filesystem: fs,
-		},
-		Cluster: container.Cluster{}, //TODO
-		Advance: container.Advance{}, //TODO
+		Basic:                basic,
+		LinuxSecurityFeature: lsf,
+		Cluster:              container.Cluster{}, //TODO
+		Advance:              container.Advance{}, //TODO
 	}
 	return
 }
