@@ -1,4 +1,4 @@
-package vul
+package sys_admin
 
 import (
 	cgroupv1_release_agent "github.com/ctrsploit/ctrsploit/exploit/cgroupv1-release_agent"
