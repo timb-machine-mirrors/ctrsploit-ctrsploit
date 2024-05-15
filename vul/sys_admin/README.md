@@ -2,7 +2,7 @@
 
 tags: sploit
 author: ssst0n3
-spec-version: v0.1.0
+spec_version: v0.1.0
 version: v0.1.0
 changelog:
     - v0.1.0: init
