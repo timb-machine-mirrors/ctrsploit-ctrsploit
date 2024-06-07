@@ -9,6 +9,8 @@ import (
 
 type Capability struct {
 	ExpectedCapability string
+	// TODO: check CapBnd or CapEff, CapBnd for check vul exists, CapEff for check vul exploitable
+	CapType cap.Type
 	prerequisite.BasePrerequisite
 }
 
