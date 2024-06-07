@@ -3,6 +3,7 @@ package checksec
 import (
 	"github.com/ctrsploit/ctrsploit/cmd/ctrsploit/env"
 	"github.com/ctrsploit/ctrsploit/vul"
+	"github.com/ctrsploit/ctrsploit/vul/shocker"
 	"github.com/ctrsploit/ctrsploit/vul/sys_admin"
 	"github.com/ctrsploit/sploit-spec/pkg/app"
 	"github.com/urfave/cli/v2"
@@ -17,5 +18,6 @@ var Command = &cli.Command{
 		env.Command,
 		app.Vul2ChecksecCmd(&sys_admin.SysadminCgroupV1, []string{"sys_admin", "release_agent", "ra"}),
 		app.Vul2ChecksecCmd(&vul.NetworkNamespaceHostLevel, []string{"host"}),
+		app.Vul2ChecksecCmd(&shocker.Shocker, []string{"cap_dac_read_search", "open_by_handle_at"}),
 	},
 }

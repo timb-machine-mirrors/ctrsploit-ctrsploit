@@ -12,13 +12,22 @@ type Capability struct {
 	prerequisite.BasePrerequisite
 }
 
-var ContainsCapSysAdmin = Capability{
-	ExpectedCapability: "CAP_SYS_ADMIN",
-	BasePrerequisite: prerequisite.BasePrerequisite{
-		Name: "CAP_SYS_ADMIN",
-		Info: "Container with cap_sys_admin is dangerous",
-	},
-}
+var (
+	ContainsCapSysAdmin = Capability{
+		ExpectedCapability: "CAP_SYS_ADMIN",
+		BasePrerequisite: prerequisite.BasePrerequisite{
+			Name: "CAP_SYS_ADMIN",
+			Info: "Container with cap_sys_admin is dangerous",
+		},
+	}
+	ContainsCapDacReadSearch = Capability{
+		ExpectedCapability: "CAP_DAC_READ_SEARCH",
+		BasePrerequisite: prerequisite.BasePrerequisite{
+			Name: "CAP_DAC_READ_SEARCH",
+			Info: "Container with cap_dac_read_search is escapable",
+		},
+	}
+)
 
 func (p *Capability) Check() (err error) {
 	err = p.BasePrerequisite.Check()
