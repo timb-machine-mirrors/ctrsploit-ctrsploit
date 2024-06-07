@@ -38,7 +38,7 @@ func (p *Capability) Check() (err error) {
 	{
 		caps, err := capability.GetPid1Capability()
 		if err != nil {
-			return
+			return err
 		}
 		capsParsed, _ := cap.FromBitmap(caps)
 		pid1 = slice.In(p.ExpectedCapability, capsParsed)
@@ -46,7 +46,7 @@ func (p *Capability) Check() (err error) {
 	{
 		caps, err := capability.GetCurrentCapability()
 		if err != nil {
-			return
+			return err
 		}
 		capsParsed, _ := cap.FromBitmap(caps)
 		self = slice.In(p.ExpectedCapability, capsParsed)
