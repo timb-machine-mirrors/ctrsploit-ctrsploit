@@ -1,6 +1,7 @@
 package capability
 
 import (
+	"fmt"
 	"github.com/containerd/containerd/pkg/cap"
 	"github.com/ssst0n3/awesome_libs/awesome_error"
 	"os"
@@ -22,10 +23,14 @@ func getCapability(pathStatus string) (caps uint64, err error) {
 	return
 }
 
+func GetCapabilityByPid(pid string) (caps uint64, err error) {
+	return getCapability(fmt.Sprintf("/proc/%s/status", pid))
+}
+
 func GetPid1Capability() (caps uint64, err error) {
-	return getCapability("/proc/1/status")
+	return GetCapabilityByPid("1")
 }
 
 func GetCurrentCapability() (caps uint64, err error) {
-	return getCapability("/proc/self/status")
+	return GetCapabilityByPid("self")
 }

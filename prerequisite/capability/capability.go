@@ -34,11 +34,23 @@ func (p *Capability) Check() (err error) {
 	if err != nil {
 		return
 	}
-	caps, err := capability.GetPid1Capability()
-	if err != nil {
-		return
+	var pid1, self bool
+	{
+		caps, err := capability.GetPid1Capability()
+		if err != nil {
+			return
+		}
+		capsParsed, _ := cap.FromBitmap(caps)
+		pid1 = slice.In(p.ExpectedCapability, capsParsed)
 	}
-	capsParsed, _ := cap.FromBitmap(caps)
-	p.Satisfied = slice.In(p.ExpectedCapability, capsParsed)
+	{
+		caps, err := capability.GetCurrentCapability()
+		if err != nil {
+			return
+		}
+		capsParsed, _ := cap.FromBitmap(caps)
+		self = slice.In(p.ExpectedCapability, capsParsed)
+	}
+	p.Satisfied = pid1 || self
 	return
 }
