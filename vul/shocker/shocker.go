@@ -27,9 +27,11 @@ var Shocker = Vulnerability{
 		Name:        "shocker",
 		Description: "Container escape with CAP_DAC_READ_SEARCH, alias shocker, found by Sebastian Krahmer (stealth) in 2014.",
 		CheckSecPrerequisites: prerequisite.Prerequisites{
-			&capability.ContainsCapDacReadSearch,
+			&capability.CapDacReadSearchBnd,
 		},
-		ExploitablePrerequisites: prerequisite.Prerequisites{},
+		ExploitablePrerequisites: prerequisite.Prerequisites{
+			&capability.CapDacReadSearchEff,
+		},
 	},
 }
 
