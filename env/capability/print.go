@@ -22,9 +22,11 @@ type Cap struct {
 }
 
 type Caps struct {
-	Name    result.Title `json:"name"`
-	Pid1    Cap          `json:"pid1"`
-	Current Cap          `json:"current"`
+	Name       result.Title `json:"name"`
+	Pid1Eff    Cap
+	Pid1Bnd    Cap
+	CurrentEff Cap
+	CurrentBnd Cap
 }
 
 func getInfoFromCaps(caps uint64, subtitle string) (c Cap) {
@@ -51,15 +53,19 @@ func getInfoFromCaps(caps uint64, subtitle string) (c Cap) {
 	return
 }
 
-func Human(machine container.Capability) (h Caps) {
-	pid1 := getInfoFromCaps(machine.Pid1, "pid1")
-	current := getInfoFromCaps(machine.Self, "current")
+func Human(machine container.Capabilities) (h Caps) {
+	pid1Eff := getInfoFromCaps(machine.Pid1.Eff, "pid1 eff")
+	pid1Bnd := getInfoFromCaps(machine.Pid1.Bnd, "pid1 bnd")
+	currentEff := getInfoFromCaps(machine.Self.Eff, "current eff")
+	currentBnd := getInfoFromCaps(machine.Self.Bnd, "current bnd")
 	h = Caps{
 		Name: result.Title{
 			Name: "Capability",
 		},
-		Pid1:    pid1,
-		Current: current,
+		Pid1Eff:    pid1Eff,
+		Pid1Bnd:    pid1Bnd,
+		CurrentEff: currentEff,
+		CurrentBnd: currentBnd,
 	}
 	return
 }

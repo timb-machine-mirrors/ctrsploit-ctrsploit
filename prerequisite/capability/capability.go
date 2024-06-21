@@ -60,7 +60,7 @@ func (p *Capability) Check() (err error) {
 		capsParsed, _ := cap.FromBitmap(caps)
 		if slice.In(p.ExpectedCapability, capsParsed) {
 			p.Satisfied = true
-			return
+			break
 		}
 	}
 	return

@@ -54,8 +54,8 @@ func LinuxSecurityFeature() (lsf container.LinuxSecurityFeature, err error) {
 		return
 	}
 	lsf = container.LinuxSecurityFeature{
-		Credential: container.Credential{}, //TODO
-		Capability: cap,
+		Credential:   container.Credential{}, //TODO
+		Capabilities: cap,
 		LSM: container.LSM{
 			Apparmor: aa,
 			SELinux:  se,
