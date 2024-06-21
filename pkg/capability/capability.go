@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-func getCapability(pathStatus string) (caps uint64, err error) {
+func getCapability(pathStatus string, capType cap.Type) (caps uint64, err error) {
 	f, err := os.Open(pathStatus)
 	if err != nil {
 		awesome_error.CheckErr(err)
@@ -19,18 +19,18 @@ func getCapability(pathStatus string) (caps uint64, err error) {
 		awesome_error.CheckErr(err)
 		return
 	}
-	caps, _ = capsMap[cap.Effective]
+	caps, _ = capsMap[capType]
 	return
 }
 
-func GetCapabilityByPid(pid string) (caps uint64, err error) {
-	return getCapability(fmt.Sprintf("/proc/%s/status", pid))
+func GetCapabilityByPid(pid string, capType cap.Type) (caps uint64, err error) {
+	return getCapability(fmt.Sprintf("/proc/%s/status", pid), capType)
 }
 
-func GetPid1Capability() (caps uint64, err error) {
-	return GetCapabilityByPid("1")
+func GetPid1Capability(capType cap.Type) (caps uint64, err error) {
+	return GetCapabilityByPid("1", capType)
 }
 
-func GetCurrentCapability() (caps uint64, err error) {
-	return GetCapabilityByPid("self")
+func GetCurrentCapability(capType cap.Type) (caps uint64, err error) {
+	return GetCapabilityByPid("self", capType)
 }
