@@ -31,7 +31,7 @@ func Human(machine container.Env) (human Result) {
 		Where:      where.Human(machine.Where),
 		Apparmor:   apparmor.Human(machine.Apparmor),
 		SELinux:    selinux.Human(machine.SELinux),
-		Capability: capability.Human(machine.Capability),
+		Capability: capability.Human(machine.Capabilities),
 		Cgroups:    cgroups.Human(machine.CGroups),
 		Filesystem: graphdriver.Human(machine.Filesystem),
 		Namespace:  namespace.Human(machine.Namespace, ""),
