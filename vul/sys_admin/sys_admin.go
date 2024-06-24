@@ -7,6 +7,7 @@ import (
 	"github.com/ctrsploit/sploit-spec/pkg/prerequisite"
 	"github.com/ctrsploit/sploit-spec/pkg/prerequisite/user"
 	"github.com/ctrsploit/sploit-spec/pkg/vul"
+	"github.com/urfave/cli/v2"
 )
 
 type Sysadmin struct {
@@ -30,8 +31,8 @@ var (
 	}
 )
 
-func (v Sysadmin) Exploit() (err error) {
-	err = v.BaseVulnerability.Exploit()
+func (v Sysadmin) Exploit(context *cli.Context) (err error) {
+	err = v.BaseVulnerability.Exploit(context)
 	if err != nil {
 		return
 	}

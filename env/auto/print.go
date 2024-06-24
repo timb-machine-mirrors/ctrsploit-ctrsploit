@@ -6,6 +6,7 @@ import (
 	"github.com/ctrsploit/ctrsploit/env/capability"
 	"github.com/ctrsploit/ctrsploit/env/cgroups"
 	"github.com/ctrsploit/ctrsploit/env/graphdriver"
+	"github.com/ctrsploit/ctrsploit/env/mountinfo"
 	"github.com/ctrsploit/ctrsploit/env/namespace"
 	"github.com/ctrsploit/ctrsploit/env/seccomp"
 	"github.com/ctrsploit/ctrsploit/env/selinux"
@@ -17,6 +18,7 @@ import (
 
 type Result struct {
 	Where      where.Result
+	Mountinfo  mountinfo.Result
 	Apparmor   apparmor.Result
 	SELinux    selinux.Result
 	Capability capability.Caps
@@ -29,6 +31,7 @@ type Result struct {
 func Human(machine container.Env) (human Result) {
 	human = Result{
 		Where:      where.Human(machine.Where),
+		Mountinfo:  mountinfo.Human(machine.MountInfo),
 		Apparmor:   apparmor.Human(machine.Apparmor),
 		SELinux:    selinux.Human(machine.SELinux),
 		Capability: capability.Human(machine.Capabilities),
