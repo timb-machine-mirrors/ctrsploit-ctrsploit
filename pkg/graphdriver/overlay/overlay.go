@@ -75,7 +75,18 @@ func (o *Overlay) IsUsed() (used bool, err error) {
 			}
 			return
 		}
-		used = o.number >= 0
+		if o.number > 0 {
+			used = true
+			return
+		}
+		if o.number == 0 {
+			mount, e := mountinfo.RootMount()
+			err = e
+			if err != nil {
+				return
+			}
+			used = mountinfo.IsOverlay(mount)
+		}
 	}
 	return
 }
