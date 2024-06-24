@@ -42,6 +42,9 @@ func Human(machine container.Env) (human Result) {
 
 func Print() (err error) {
 	machine, err := Auto()
+	if err != nil {
+		return
+	}
 	u := result.Union{
 		Machine: machine,
 		Human:   Human(machine),
