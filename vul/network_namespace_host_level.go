@@ -4,6 +4,7 @@ import (
 	"github.com/ctrsploit/ctrsploit/prerequisite/namespace"
 	"github.com/ctrsploit/sploit-spec/pkg/prerequisite"
 	"github.com/ctrsploit/sploit-spec/pkg/vul"
+	"github.com/urfave/cli/v2"
 )
 
 type networkNamespaceHostLevel struct {
@@ -22,7 +23,7 @@ var (
 		}}
 )
 
-func (v networkNamespaceHostLevel) Exploit() (err error) {
+func (v networkNamespaceHostLevel) Exploit(context *cli.Context) (err error) {
 	// TODO
 	return
 }

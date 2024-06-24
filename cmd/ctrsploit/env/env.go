@@ -12,6 +12,7 @@ var Command = &cli.Command{
 	Subcommands: []*cli.Command{
 		Auto,
 		Where,
+		Mountinfo,
 		Graphdriver,
 		Cgroups,
 		Capability,

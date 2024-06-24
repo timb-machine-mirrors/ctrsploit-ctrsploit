@@ -5,6 +5,7 @@ import (
 	"github.com/ctrsploit/ctrsploit/env/capability"
 	"github.com/ctrsploit/ctrsploit/env/cgroups"
 	"github.com/ctrsploit/ctrsploit/env/graphdriver"
+	"github.com/ctrsploit/ctrsploit/env/mountinfo"
 	"github.com/ctrsploit/ctrsploit/env/namespace"
 	"github.com/ctrsploit/ctrsploit/env/seccomp"
 	"github.com/ctrsploit/ctrsploit/env/selinux"
@@ -17,9 +18,14 @@ func Basic() (basic container.Basic, err error) {
 	if err != nil {
 		return
 	}
+	m, err := mountinfo.MountInfo()
+	if err != nil {
+		return
+	}
 	basic = container.Basic{
 		Where:         w,
 		KernelVersion: "", //TODO
+		MountInfo:     m,
 	}
 	return
 }

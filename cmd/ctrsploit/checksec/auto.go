@@ -20,7 +20,7 @@ var Auto = &cli.Command{
 			&sys_admin.SysadminCgroupV1,
 			&vul2.NetworkNamespaceHostLevel,
 		}
-		err = vulnerabilities.Check()
+		err = vulnerabilities.Check(context)
 		if err != nil {
 			return
 		}

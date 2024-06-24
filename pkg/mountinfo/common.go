@@ -28,3 +28,12 @@ func GetMountByMountpoint(mountpoint string) (info *mountinfo.Info, err error) {
 	info = mounts[0]
 	return
 }
+
+func MountInfo() (info []*mountinfo.Info, err error) {
+	info, err = mountinfo.GetMounts(nil)
+	if err != nil {
+		awesome_error.CheckErr(err)
+		return
+	}
+	return
+}
