@@ -33,7 +33,7 @@ func Human(machine []*mountinfo.Info) (human Result) {
 		Infos: []String{},
 	}
 	for _, info := range machine {
-		human.Infos = append(human.Infos, String{Content: fmt.Sprintf("%s (%s) => %s", info.Root, info.Source, info.Mountpoint)})
+		human.Infos = append(human.Infos, String{Content: fmt.Sprintf("(%s) %s => %s", info.Source, info.Root, info.Mountpoint)})
 	}
 	return
 }
