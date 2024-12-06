@@ -31,7 +31,7 @@ make build-ctrsploit
 ### Quick-Start
 
 ```
-wget -O ctrsploit https://github.com/ctrsploit/ctrsploit/releases/download/v0.5.12/ctrsploit_linux_amd64 && chmod +x ctrsploit
+wget -O ctrsploit https://github.com/ctrsploit/ctrsploit/releases/latest/download/ctrsploit_linux_amd64 && chmod +x ctrsploit
 NAME:
    ctrsploit - A penetration toolkit for container environment
 
