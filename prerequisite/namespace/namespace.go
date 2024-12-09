@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/ctrsploit/ctrsploit/pkg/namespace"
 	"github.com/ctrsploit/sploit-spec/pkg/env/container"
+	"github.com/ctrsploit/sploit-spec/pkg/exeenv"
 	"github.com/ctrsploit/sploit-spec/pkg/prerequisite"
 	"github.com/ssst0n3/awesome_libs/awesome_error"
 )
@@ -19,8 +20,9 @@ var (
 		ExpectedLevel: container.NamespaceLevelHost,
 		Type:          container.NamespaceTypeNetwork,
 		BasePrerequisite: prerequisite.BasePrerequisite{
-			Name: "Network_Namespace_Level_Host",
-			Info: "Container with host network namespace can cause network-based attacks even escape",
+			Name:   "Network_Namespace_Level_Host",
+			Info:   "Container with host network namespace can cause network-based attacks even escape",
+			ExeEnv: exeenv.InContainer,
 		},
 	}
 )
