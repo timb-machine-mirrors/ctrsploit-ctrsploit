@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/ctrsploit/ctrsploit/prerequisite/capability"
 	"github.com/ctrsploit/sploit-spec/pkg/app"
+	"github.com/ctrsploit/sploit-spec/pkg/exeenv"
 	"github.com/ctrsploit/sploit-spec/pkg/prerequisite"
 	"github.com/ctrsploit/sploit-spec/pkg/vul"
 	"github.com/ssst0n3/awesome_libs/awesome_error"
@@ -25,6 +26,7 @@ var Shocker = Vulnerability{
 	BaseVulnerability: vul.BaseVulnerability{
 		Name:        "shocker",
 		Description: "Container escape with CAP_DAC_READ_SEARCH, alias shocker, found by Sebastian Krahmer (stealth) in 2014.",
+		ExeEnv:      exeenv.InContainer,
 		CheckSecPrerequisites: prerequisite.Prerequisites{
 			&capability.CapDacReadSearchBnd,
 		},

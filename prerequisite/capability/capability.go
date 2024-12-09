@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/containerd/containerd/pkg/cap"
 	"github.com/ctrsploit/ctrsploit/pkg/capability"
+	"github.com/ctrsploit/sploit-spec/pkg/exeenv"
 	"github.com/ctrsploit/sploit-spec/pkg/prerequisite"
 	"github.com/ssst0n3/awesome_libs/slice"
 )
@@ -22,8 +23,9 @@ func BndContainsCap(name string) Capability {
 		Pid:                []string{"1", "self"},
 		CapType:            cap.Bounding,
 		BasePrerequisite: prerequisite.BasePrerequisite{
-			Name: name,
-			Info: fmt.Sprintf("CapBnd has %s", name),
+			Name:   name,
+			Info:   fmt.Sprintf("CapBnd has %s", name),
+			ExeEnv: exeenv.InContainer,
 		},
 	}
 }
@@ -34,8 +36,9 @@ func EffContainsCap(name string) Capability {
 		Pid:                []string{"self"},
 		CapType:            cap.Effective,
 		BasePrerequisite: prerequisite.BasePrerequisite{
-			Name: name,
-			Info: fmt.Sprintf("CapEff has %s", name),
+			Name:   name,
+			Info:   fmt.Sprintf("CapEff has %s", name),
+			ExeEnv: exeenv.InContainer,
 		},
 	}
 }
