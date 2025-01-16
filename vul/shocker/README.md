@@ -3,15 +3,16 @@
 tags: sploit
 author: ssst0n3
 spec_version: v0.1.0
-version: v0.1.0
+version: v0.1.1
 changelog:
+    - v0.1.1: fix the edit link
     - v0.1.0: init
 
 ---
 
 # docker CAP_DAC_READ_SEARCH(shocker) 逃逸
 
-[edit](https://github.com/ctrsploit/sploit-spec/edit/main/vul/shocker/README.md)
+[edit](https://github.com/ctrsploit/ctrsploit/edit/main/vul/shocker/README.md)
 
 ## 1. 漏洞介绍
 
